@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block maincontent %}
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="content-section bg-light p-5 rounded-lg shadow-lg">
+                <form method="POST" action="">
+                    {{ login.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom">Join Us Today!</legend>
+                        <div class="form-group">
+                            {{ login.username.label(class="form-control-label")}}
+                            {% if login.username.errors %}
+                                {{ login.username(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in login.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ login.username(class="form-control form-control-lg", placeholder="Username")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ login.password.label(class="form-control-label")}}
+                            {% if login.password.errors %}
+                                {{ login.password(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in login.password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ login.password(class="form-control form-control-lg", placeholder="Password")}}
+                            {% endif %}
+                        </div>
+                    <div class="form-check">
+                            {{ login.remember(class="form-check-input")}}
+                            {{ login.remember.label(class="form-check-label")}}
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        {{ login.join(class="btn btn-primary btn-lg btn-block") }}
+                    </div>
+                </form>
+            </div>
+            <div class="text-center mt-1 mb-5">
+                <small class="text-muted">
+                    Don't have an account?<a class="ml-2" href="{{ url_for('register')}}">Register here</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

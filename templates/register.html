@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+{% block maincontent %}
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="content-section bg-light p-5 rounded-lg shadow-lg">
+                <form method="POST" action="">
+                    {{ register.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom">Login</legend>
+                        <div class="form-group">
+                            {{ register.username.label(class="form-control-label")}}
+                            {% if register.username.errors %}
+                                {{ register.username(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ register.username(class="form-control form-control-lg", placeholder="Username")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ register.email.label(class="form-control-label")}}
+                            {% if register.email.errors %}
+                                {{ register.email(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ register.email(class="form-control form-control-lg", placeholder="Email")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ register.age.label(class="form-control-label")}}
+                            {% if register.age.errors %}
+                                {{ register.age(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register.age.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ register.age(class="form-control form-control-lg", placeholder="Age")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ register.password.label(class="form-control-label")}}
+                            {% if register.password.errors %}
+                                {{ register.password(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register.password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ register.password(class="form-control form-control-lg", placeholder="Password")}}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ register.confirmPassword.label(class="form-control-label")}}
+                            {% if register.confirmPassword.errors %}
+                                {{ register.confirmPassword(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in register.confirmPassword.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ register.confirmPassword(class="form-control form-control-lg", placeholder="Confirm Password")}}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        {{ register.submit(class="btn btn-primary btn-lg btn-block") }}
+                    </div>
+                </form>
+            </div>
+            <div class="text-center mt-1 mb-5">
+                <small class="text-muted">
+                    Already have an account?<a class="ml-2" href="{{ url_for('login')}}">Login here</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
