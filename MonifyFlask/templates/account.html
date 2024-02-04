@@ -1,0 +1,139 @@
+{% extends 'layout.html' %}
+
+{% block maincontent %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy4qFu7J4CkR5GgBLpxUn3t3yBjU1zGqq"
+          crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        #intro-box {
+            display: flex;
+            justify-content: center;
+            margin: 50px;
+        }
+
+        .content-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: auto;
+            width: 70%;
+        }
+
+        .account-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .account-heading {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333; /* Updated color */
+        }
+
+        .text-secondary {
+            color: #6c757d;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #333; /* Updated color */
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .btn-outline-info {
+            border-radius: 10px;
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: #dc3545; /* Updated color */
+        }
+    </style>
+</head>
+
+<body>
+<div class="content-section mt-5 mb-5">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ image_file }}" alt="Profile Image">
+        <div class="media-body">
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+        </div>
+    </div>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ update.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4 mt-5">Account Info</legend>
+
+            <div class="form-group">
+                <label for="username" class="form-label">{{ update.username.label.text }}</label>
+                {% if update.username.errors %}
+                    {{ update.username(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in update.username.errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ update.username(class="form-control") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">{{ update.email.label.text }}</label>
+                {% if update.email.errors %}
+                    {{ update.email(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in update.email.errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ update.email(class="form-control") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="picture" class="form-label">{{ update.picture.label.text }}</label>
+                {{ update.picture(class="form-control-file") }}
+                {% if update.picture.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in update.picture.errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            {{ update.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+</body>
+{% endblock %}

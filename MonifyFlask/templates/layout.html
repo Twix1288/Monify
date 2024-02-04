@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -30,6 +30,7 @@
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
+            user-scalable: no;
         }
 
         main {
@@ -68,6 +69,15 @@
             text-decoration-color: var(--navbar-active-color);
             text-decoration-thickness: 2px;
         }
+
+        #flash-messages-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 50%;
+        }
     </style>
 </head>
 
@@ -85,19 +95,28 @@
                         <a class="nav-link text-white" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/finances">Your Finances</a>
+                        <a class="nav-link text-white" href="/financial">Your Finances</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/notes">Goals/Notes</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto text-center">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/account">Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/logout">Logout</a>
+                        </li>
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/register">Register</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/login">Login</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -106,11 +125,16 @@
     <main>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                {{ message }}
+                <div id="flash-messages-container" class="fixed-top mt-5 mx-auto">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             {% endif %}
         {% endwith %}
         {% block maincontent %}
