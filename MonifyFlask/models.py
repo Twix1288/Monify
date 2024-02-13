@@ -20,18 +20,20 @@ class Users(db.Model, UserMixin):
     password = Column(Text, nullable=False)
     image_file = db.Column(db.String(20), nullable= False, default='default.png')
     goals_notes = relationship('Goals_Notes', back_populates='user')
-    finances = relationship('FinanceInfo', back_populates='user')
+    finances = relationship('Programs', back_populates='user')
 
     def __repr__(self):
         return f"<User username={self.username}>"
 
 
-class FinanceInfo(db.Model):
+class Programs(db.Model):
     __tablename__ = 'finance_info'
     id = db.Column(Integer, primary_key=True)
     user_id = db.Column(Integer, ForeignKey('users.id'))
-    total_amount = db.Column(db.Integer, nullable=False)
-    income = db.Column(Integer, nullable=False)
+    title = db.Column(Text, nullable=False)
+    cost_gain = db.Column(db.Integer, nullable=False)
+    priority = db.Column(Integer, nullable=False)
+    description = db.Column(Text, nullable=False)
     date = db.Column(db.DateTime, nullable= False, default = datetime.utcnow)
 
     user = relationship('Users', back_populates='finances')

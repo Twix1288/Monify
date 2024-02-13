@@ -30,7 +30,7 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)],)
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)], )
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
 
@@ -38,12 +38,14 @@ class LoginForm(FlaskForm):
 
 
 class ProgramCreator(FlaskForm):
-    programName = StringField('Title', validators=[DataRequired()], render_kw={"autocomplete": "off"})
-    requiredCost = StringField('Cost($$/month)', validators=[DataRequired()], render_kw={"autocomplete": "off"})
-    priority = StringField('Priority 1-3', validators=[DataRequired(), NumberRange(min=1, max=3)],
+    name = StringField('Title', validators=[DataRequired()], render_kw={"autocomplete": "off"})
+    Cost_gain = IntegerField('Cost per month: (negative number for taking out money)', validators=[DataRequired()],
+                             render_kw={"autocomplete": "off"})
+    priority = IntegerField('Priority 1-3', validators=[DataRequired(), NumberRange(min=1, max=3)],
                            render_kw={"autocomplete": "off"})
-
-    create = SubmitField('Done')
+    description = StringField('Describe your program', validators=[DataRequired(), Length(max=50)],
+                              render_kw={"autocomplete": "off"})
+    create = SubmitField('Post')
 
 
 class Goals_notesForm(FlaskForm):

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block maincontent %}
+ <div style="border: 2px solid #4CAF50; padding: 20px; border-radius: 10px; background-color: #f2f2f2;margin: 45px">
+    <div class="media-body">
+      <small class="text-muted" style="color: #666; display: block;">{{ post.date.strftime('%Y-%m-%d') }}</small>
+      <small class="text-muted" style="color: #666; display: block;">{{ post.priority }}</small>
+      <h2 style="margin-bottom: 10px;"><a class="article-title" href="#" style="color: #333; text-decoration: none;">{{ post.title }}</a></h2>
+      {% if post.cost_gain > 0 %}
+      <h1 class="article-content" style="margin-bottom: 10px; color: #4CAF50;">{{ post.cost_gain }}$ per month</h1>
+      {% elif post.cost_gain < 0 %}
+      <h1 class="article-content" style="margin-bottom: 10px; color: firebrick;">{{ post.cost_gain }}$ per month</h1>
+      {% else %}
+      <h1 class="article-content" style="margin-bottom: 10px; color: black;">{{ post.cost_gain }}$ per month</h1>
+      {% endif %}
+      <p class="article-content" style="color: #333;">{{ post.description }}</p>
+    </div>
+  </div>
+{% endblock %}

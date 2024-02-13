@@ -6,17 +6,7 @@ import secrets
 from PIL import Image
 from MonifyFlask import app, db, bcrypt, login_user, current_user, logout_user, login_required
 from MonifyFlask.forms import LoginForm, RegistrationForm, ProgramCreator, Goals_notesForm, UpdateAccountForm
-from MonifyFlask.models import Users
-
-
-# Change the endpoint for the /finance route to /financial
-@app.route('/financial', methods=['GET', 'POST'])
-@login_required
-def finances():
-    program_creator = ProgramCreator()
-    return render_template("finances.html", program_creator=program_creator)
-
-
+from MonifyFlask.models import Users, Programs
 @app.route('/notes', methods=['GET', 'POST'])
 def notes():
     goals_notes = Goals_notesForm()
@@ -100,3 +90,27 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, update=update)
+
+@app.route('/financial', methods=['GET', 'POST'])
+@login_required
+def finances():
+    programs = Programs.query.filter_by(user_id=current_user.id).all()
+    return render_template("finances.html", programs = programs)
+@app.route('/new', methods=['GET', 'POST'])
+@login_required
+def new():
+    program = ProgramCreator()
+    if program.validate_on_submit():
+        post = Programs(title=program.name.data, cost_gain=program.Cost_gain.data, priority=program.priority.data,
+                        description=program.description.data,
+                        user_id = current_user.id)  # Associate post with current user
+        db.session.add(post)
+        db.session.commit()
+        flash(f'Post: {program.name.data} has now been created!', 'success')
+        return redirect(url_for('finances'))
+    return render_template('posts.html', title='Account', program=program)
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Programs.query.get_or_404(post_id)
+    return render_template('programPost.html', post=post)
